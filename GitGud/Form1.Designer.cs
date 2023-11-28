@@ -36,8 +36,10 @@
             button3 = new Button();
             button4 = new Button();
             label1 = new Label();
-            richTextBox1 = new RichTextBox();
             label3 = new Label();
+            button6 = new Button();
+            button5 = new Button();
+            listBox1 = new ListBox();
             SuspendLayout();
             // 
             // textBox1
@@ -118,25 +120,46 @@
             label1.TabIndex = 8;
             label1.Text = "ACTIONS";
             // 
-            // richTextBox1
-            // 
-            richTextBox1.BackColor = SystemColors.ActiveCaptionText;
-            richTextBox1.ForeColor = SystemColors.Info;
-            richTextBox1.Location = new Point(14, 251);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.ReadOnly = true;
-            richTextBox1.Size = new Size(410, 265);
-            richTextBox1.TabIndex = 9;
-            richTextBox1.Text = "";
-            // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Location = new Point(14, 233);
             label3.Name = "label3";
-            label3.Size = new Size(39, 15);
+            label3.Size = new Size(151, 15);
             label3.TabIndex = 10;
-            label3.Text = "LOGS";
+            label3.Text = "Active Directories";
+            // 
+            // button6
+            // 
+            button6.Font = new Font("Agave Nerd Font Mono", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            button6.ForeColor = Color.Lime;
+            button6.Location = new Point(344, 210);
+            button6.Name = "button6";
+            button6.Size = new Size(37, 35);
+            button6.TabIndex = 12;
+            button6.Text = "+";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
+            // button5
+            // 
+            button5.Font = new Font("Agave Nerd Font Mono", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            button5.ForeColor = Color.Red;
+            button5.Location = new Point(387, 210);
+            button5.Name = "button5";
+            button5.Size = new Size(37, 35);
+            button5.TabIndex = 11;
+            button5.Text = "-";
+            button5.UseVisualStyleBackColor = true;
+            // 
+            // listBox1
+            // 
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(14, 251);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(410, 259);
+            listBox1.TabIndex = 13;
             // 
             // Form1
             // 
@@ -144,8 +167,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Desktop;
             ClientSize = new Size(438, 528);
+            Controls.Add(listBox1);
+            Controls.Add(button6);
+            Controls.Add(button5);
             Controls.Add(label3);
-            Controls.Add(richTextBox1);
             Controls.Add(label1);
             Controls.Add(button4);
             Controls.Add(button3);
@@ -173,7 +198,9 @@
         private Button button3;
         private Button button4;
         private Label label1;
-        private RichTextBox richTextBox1;
         private Label label3;
+        private Button button6;
+        private Button button5;
+        private ListBox listBox1;
     }
 }

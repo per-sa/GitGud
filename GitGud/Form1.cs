@@ -14,13 +14,18 @@ namespace GitGud
             InitializeComponent();
         }
 
+        public void ReceiveData(string data)
+        {
+            listBox1.Items.Add(data);
+        }
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Create a new ProcessStartInfo
             var psi = new System.Diagnostics.ProcessStartInfo
             {
                 FileName = "https://github.com/settings/tokens",
-                UseShellExecute = true 
+                UseShellExecute = true
             };
 
             System.Diagnostics.Process.Start(psi);
@@ -73,9 +78,7 @@ namespace GitGud
                         output.AppendLine(line);
                     }
 
-                    richTextBox1.Invoke(new Action(() => {
-                        richTextBox1.Text = output.ToString();
-                    }));
+                    Console.WriteLine(output.ToString());
 
                     myProcess.WaitForExit();
                 }
@@ -86,5 +89,10 @@ namespace GitGud
             }
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            AddDirs addDirs = new AddDirs(this);
+            addDirs.Show();
+        }
     }
 }
