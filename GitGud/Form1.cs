@@ -4,7 +4,6 @@ using System;
 using System.Text;
 using System.Windows.Forms;
 
-
 namespace GitGud
 {
     public partial class Form1 : Form
@@ -19,69 +18,46 @@ namespace GitGud
             listBox1.Items.Add(data);
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-            // Create a new ProcessStartInfo
-            var psi = new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = "https://github.com/settings/tokens",
-                UseShellExecute = true
-            };
-
-            System.Diagnostics.Process.Start(psi);
+            await RunGitActionAsync("pull");
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (textBox1.Text == "")
-            {
-                MessageBox.Show("Please enter a valid token");
-                return;
-            }
-            else
-            {
-                RunPythonScript();
-            }
-
-        }
-
-        private void RunPythonScript()
+        private async Task RunGitActionAsync(string command)
         {
             try
             {
-                string python = @"C:\Python312\python.exe";
-                // path to script
-                string myPythonScript = @"C:\Users\main.py";
+                ProcessStartInfo startInfo = new ProcessStartInfo("cmd.exe", "/c " + "git " + command);
 
-
-                // Additional arguments to pass to your Python script, if any
-                string args = string.Format("{0}", myPythonScript);
-
-                ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python)
+                foreach (var item in listBox1.Items)
                 {
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    Arguments = args
-                };
-
-                using (Process myProcess = new Process())
-                {
-                    myProcess.StartInfo = myProcessStartInfo;
-                    myProcess.Start();
-
-                    StreamReader myStreamReader = myProcess.StandardOutput;
-                    StringBuilder output = new StringBuilder();
-
-                    while (!myStreamReader.EndOfStream)
+                    startInfo.WorkingDirectory = item.ToString();
+                    startInfo.RedirectStandardOutput = true;
+                    startInfo.RedirectStandardError = true;
+                    startInfo.UseShellExecute = false;
+                    startInfo.CreateNoWindow = true;
+                    startInfo.RedirectStandardError = true;
+                    startInfo.RedirectStandardOutput = true;
+                    using (Process process = new Process())
                     {
-                        string line = myStreamReader.ReadLine();
-                        output.AppendLine(line);
+                        process.StartInfo = startInfo;
+                        process.Start();
+
+                        string output = await process.StandardOutput.ReadToEndAsync();
+                        string error = await process.StandardError.ReadToEndAsync();
+
+                        string formattedOutput = item.ToString() + "\n" + (error != "" ? error : output) + "\n";
+
+                        this.Invoke(new Action(() =>
+                        {
+                            richTextBox1.AppendText(formattedOutput);
+                        }));
+
+                        await process.WaitForExitAsync();
                     }
 
-                    Console.WriteLine(output.ToString());
-
-                    myProcess.WaitForExit();
                 }
+
             }
             catch (Exception ex)
             {
@@ -93,6 +69,11 @@ namespace GitGud
         {
             AddDirs addDirs = new AddDirs(this);
             addDirs.Show();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Remove(listBox1.SelectedItem);
         }
     }
 }
