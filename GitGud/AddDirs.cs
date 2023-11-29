@@ -44,12 +44,24 @@ namespace GitGud
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SendDataDir();
+            if (textBox1.Text != "")
+            {
+                SendDataDir();
+            }
+            else
+            {
+                MessageBox.Show("Please select a directory");
+            }
         }
 
         private void SendDataDir()
         {
             MainForm.ReceiveData(textBox1.Text);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
